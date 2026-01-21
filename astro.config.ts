@@ -12,6 +12,7 @@ import { transformerFileName } from "./src/utils/transformers/fileName";
 import { SITE } from "./src/config";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import mermaid from 'astro-mermaid';
 
 // https://astro.build/config
 export default defineConfig({
@@ -20,6 +21,20 @@ export default defineConfig({
     sitemap({
       filter: page => SITE.showArchives || !page.endsWith("/archives"),
     }),
+    mermaid({
+      theme: 'forest',
+      autoTheme: true,
+      iconPacks: [
+        {
+          name: 'logos',
+          loader: () => fetch('https://unpkg.com/@iconify-json/logos@1/icons.json').then(res => res.json())
+        },
+        {
+          name: 'iconoir',
+          loader: () => fetch('https://unpkg.com/@iconify-json/iconoir@1/icons.json').then(res => res.json())
+        }
+      ]
+    })
   ],
   markdown: {
     remarkPlugins: [
