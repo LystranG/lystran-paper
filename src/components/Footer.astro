@@ -1,6 +1,8 @@
 ---
 import type { HTMLAttributes } from "astro/types";
 import Socials from "./Socials.astro";
+import { SITE } from "@/config";
+import LinkButton from "./LinkButton.astro";
 
 const currentYear = new Date().getFullYear();
 
@@ -24,9 +26,18 @@ const { noMarginTop = false, class: className, ...attrs } = Astro.props;
   >
     <Socials />
     <div class="my-2 flex flex-col items-center whitespace-nowrap sm:flex-row">
-      <span>Copyright &#169; {currentYear}</span>
+      <span>Copyright &#169; {currentYear} {SITE.author}.</span>
       <span class="hidden sm:inline">&nbsp;|&nbsp;</span>
-      <span>All rights reserved.</span>
+      <span
+        >本站内容采用
+        <LinkButton
+          class="underline decoration-dashed underline-offset-4 hover:text-accent"
+          href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh"
+        >
+          CC BY-NC-SA 4.0
+        </LinkButton>
+        协议许可，转载请注明出处。</span
+      >
     </div>
   </div>
 </footer>
