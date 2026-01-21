@@ -14,13 +14,15 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import mermaid from 'astro-mermaid';
 
+import react from "@astrojs/react";
+
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
   integrations: [
     sitemap({
       filter: page => SITE.showArchives || !page.endsWith("/archives"),
-    }),
+    }), 
     mermaid({
       theme: 'forest',
       autoTheme: true,
@@ -34,7 +36,8 @@ export default defineConfig({
           loader: () => fetch('https://unpkg.com/@iconify-json/iconoir@1/icons.json').then(res => res.json())
         }
       ]
-    })
+    }), 
+    react()
   ],
   markdown: {
     remarkPlugins: [
