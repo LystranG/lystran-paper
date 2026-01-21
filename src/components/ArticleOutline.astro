@@ -65,7 +65,7 @@ const tree = buildTree(toc);
 
 {
   tree.length > 0 && (
-    <aside class:list={["hidden lg:block", className]} aria-label="文章大纲">
+    <aside class:list={["hidden xl:block", className]} aria-label="文章大纲">
       <div class="article-outline">
         <div class="article-outline__header">{title}</div>
         <nav class="article-outline__nav" aria-label="文章大纲导航">
@@ -100,7 +100,7 @@ const tree = buildTree(toc);
     align-items: center;
     gap: 0.5rem;
     padding: 0.65rem 0.75rem;
-    font-size: 0.875rem;
+    font-size: 1rem;
     font-weight: 600;
     color: color-mix(in oklab, var(--color-foreground) 90%, transparent);
     border-bottom: 1px solid color-mix(in oklab, var(--color-border) 80%, transparent);
@@ -110,7 +110,7 @@ const tree = buildTree(toc);
     max-height: calc(100vh - 10rem);
     overflow: auto;
     padding: 0.6rem 0.75rem 0.75rem;
-    font-size: 0.875rem;
+    font-size: 1rem;
   }
 
   .article-outline__list {
@@ -122,11 +122,34 @@ const tree = buildTree(toc);
   }
 
   .article-outline__children {
+    display: grid;
     margin-inline-start: 0.85rem;
     margin-top: 0.25rem;
     padding-inline-start: 0.25rem;
     border-inline-start: 1px solid
       color-mix(in oklab, var(--color-border) 70%, transparent);
+    grid-template-rows: 1fr;
+    opacity: 1;
+    visibility: visible;
+    transition:
+      grid-template-rows 200ms ease,
+      opacity 200ms ease,
+      visibility 0s linear 0s;
+  }
+
+  .article-outline__children[data-collapsed="true"] {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    transition:
+      grid-template-rows 200ms ease,
+      opacity 200ms ease,
+      visibility 0s linear 200ms;
+  }
+
+  .article-outline__children-inner {
+    overflow: hidden;
   }
 
   .article-outline__row {
@@ -175,8 +198,18 @@ const tree = buildTree(toc);
     color: var(--color-accent);
   }
 
+  .article-outline__link--active {
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .article-outline__toggle {
+      transition: none;
+    }
+
+    .article-outline__children,
+    .article-outline__children[data-collapsed="true"] {
       transition: none;
     }
   }
