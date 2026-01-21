@@ -14,11 +14,13 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import mermaid from 'astro-mermaid';
 import ensureAccessibleName from "./src/utils/rehype/ensureAccessibleName";
+import convertHtmlImgToMarkdownImage from "./src/utils/remark/convertHtmlImgToMarkdownImage";
 
 import react from "@astrojs/react";
 
 // https://astro.build/config
 export default defineConfig({
+  prefetch: true,
   site: SITE.website,
   integrations: [
     sitemap({
@@ -43,6 +45,7 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [
       remarkMath,
+      convertHtmlImgToMarkdownImage,
       [remarkToc, {heading: '目录'}], [remarkCollapse, { test: "目录", summary: '点击展开' }]
     ],
     rehypePlugins: [
@@ -75,6 +78,16 @@ export default defineConfig({
   image: {
     responsiveStyles: true,
     layout: "constrained",
+    // 允许优化 Markdown 中引用的远程图片（仅白名单域名）
+    // 参考：https://docs.astro.build/en/guides/images/#authorizing-remote-images
+    domains: [
+      "astro.build",
+      "github.com",
+      "img.lystran.com",
+      "i.ibb.co",
+      "res.cloudinary.com",
+      "user-images.githubusercontent.com",
+    ],
   },
   env: {
     schema: {
