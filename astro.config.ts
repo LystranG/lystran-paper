@@ -13,6 +13,7 @@ import { SITE } from "./src/config";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import mermaid from 'astro-mermaid';
+import ensureAccessibleName from "./src/utils/rehype/ensureAccessibleName";
 
 import react from "@astrojs/react";
 
@@ -45,7 +46,8 @@ export default defineConfig({
       [remarkToc, {heading: '目录'}], [remarkCollapse, { test: "目录", summary: '点击展开' }]
     ],
     rehypePlugins: [
-      rehypeKatex
+      rehypeKatex,
+      ensureAccessibleName,
     ],
     shikiConfig: {
       // For more themes, visit https://shiki.style/themes

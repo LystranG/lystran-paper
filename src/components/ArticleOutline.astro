@@ -1,0 +1,183 @@
+---
+type Heading = {
+  depth: number;
+  slug: string;
+  text: string;
+};
+
+import ArticleOutlineIsland, {
+  type TocNode,
+} from "@/components/ArticleOutlineIsland";
+
+type Props = {
+  headings: Heading[];
+  title?: string;
+  minDepth?: number;
+  maxDepth?: number;
+  className?: string;
+};
+
+const {
+  headings,
+  title = "大纲",
+  minDepth = 2,
+  maxDepth = 4,
+  className = "",
+} = Astro.props;
+
+const toc = (headings ?? []).filter(h => {
+  const isInRange = h.depth >= minDepth && h.depth <= maxDepth;
+  const hasText = Boolean(h.text?.trim());
+  const hasSlug = Boolean(h.slug?.trim());
+  // 兼容项目内 remark-toc 生成的“目录”标题，避免大纲里出现“目录 -> 目录...”
+  const isDirectoryHeading = h.text?.trim() === "目录";
+  return isInRange && hasText && hasSlug && !isDirectoryHeading;
+});
+
+const buildTree = (items: Heading[]): TocNode[] => {
+  const root: TocNode[] = [];
+  const stack: { depth: number; node: TocNode }[] = [];
+  let index = 0;
+
+  for (const heading of items) {
+    const node: TocNode = {
+      id: String(index++),
+      heading,
+      children: [],
+    };
+
+    while (stack.length > 0 && heading.depth <= stack[stack.length - 1]!.depth) {
+      stack.pop();
+    }
+
+    const parent = stack[stack.length - 1]?.node;
+    if (parent) parent.children.push(node);
+    else root.push(node);
+
+    stack.push({ depth: heading.depth, node });
+  }
+
+  return root;
+};
+
+const tree = buildTree(toc);
+---
+
+{
+  tree.length > 0 && (
+    <aside class:list={["hidden lg:block", className]} aria-label="文章大纲">
+      <div class="article-outline">
+        <div class="article-outline__header">{title}</div>
+        <nav class="article-outline__nav" aria-label="文章大纲导航">
+          <ArticleOutlineIsland
+            client:media="(min-width: 1024px)"
+            nodes={tree}
+            baseId="article-outline"
+          />
+        </nav>
+      </div>
+    </aside>
+  )
+}
+
+<style is:global>
+  .article-outline {
+    position: fixed;
+    top: 6rem;
+    right: 1rem;
+    z-index: 30;
+    width: 18rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    background: color-mix(in oklab, var(--color-background) 85%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .article-outline__header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: color-mix(in oklab, var(--color-foreground) 90%, transparent);
+    border-bottom: 1px solid color-mix(in oklab, var(--color-border) 80%, transparent);
+  }
+
+  .article-outline__nav {
+    max-height: calc(100vh - 10rem);
+    overflow: auto;
+    padding: 0.6rem 0.75rem 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .article-outline__list {
+    display: grid;
+    gap: 0.25rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .article-outline__children {
+    margin-inline-start: 0.85rem;
+    margin-top: 0.25rem;
+    padding-inline-start: 0.25rem;
+    border-inline-start: 1px solid
+      color-mix(in oklab, var(--color-border) 70%, transparent);
+  }
+
+  .article-outline__row {
+    display: grid;
+    grid-template-columns: 1rem minmax(0, 1fr);
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .article-outline__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 0.25rem;
+    color: color-mix(in oklab, var(--color-foreground) 70%, transparent);
+    transition: transform 150ms ease, color 150ms ease, background-color 150ms ease;
+  }
+
+  .article-outline__toggle:hover,
+  .article-outline__toggle:focus-visible {
+    background: color-mix(in oklab, var(--color-muted) 35%, transparent);
+    color: var(--color-accent);
+  }
+
+  .article-outline__toggle[aria-expanded="false"] {
+    transform: rotate(-90deg);
+  }
+
+  .article-outline__spacer {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .article-outline__link {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: color-mix(in oklab, var(--color-foreground) 80%, transparent);
+  }
+
+  .article-outline__link:hover,
+  .article-outline__link:focus-visible {
+    color: var(--color-accent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .article-outline__toggle {
+      transition: none;
+    }
+  }
+</style>

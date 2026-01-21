@@ -1,0 +1,62 @@
+---
+type Heading = {
+  depth: number;
+  slug: string;
+  text: string;
+};
+
+type TocNode = {
+  id: string;
+  heading: Heading;
+  children: TocNode[];
+};
+
+type Props = {
+  nodes: TocNode[];
+  baseId: string;
+};
+
+const { nodes, baseId } = Astro.props;
+---
+
+<ol class="article-outline__list">
+  {
+    nodes.map(node => {
+      const childrenId = `${baseId}-children-${node.id}`;
+      const hasChildren = node.children.length > 0;
+      return (
+        <li class="article-outline__item">
+          <div class="article-outline__row">
+            {
+              hasChildren ? (
+                <button
+                  type="button"
+                  class="article-outline__toggle"
+                  data-toc-toggle
+                  aria-expanded="true"
+                  aria-controls={childrenId}
+                  aria-label="折叠/展开子目录"
+                >
+                  ▾
+                </button>
+              ) : (
+                <span class="article-outline__spacer" aria-hidden="true" />
+              )
+            }
+            <a href={`#${node.heading.slug}`} class="article-outline__link">
+              {node.heading.text}
+            </a>
+          </div>
+          {
+            hasChildren && (
+              <div id={childrenId} class="article-outline__children">
+                <Astro.self nodes={node.children} baseId={baseId} />
+              </div>
+            )
+          }
+        </li>
+      );
+    })
+  }
+</ol>
+
