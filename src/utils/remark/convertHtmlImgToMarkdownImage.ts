@@ -1,33 +1,3 @@
-type MdastNode = {
-  type?: string;
-  value?: unknown;
-  children?: MdastNode[];
-  [key: string]: unknown;
-};
-
-type ImageNode = {
-  type: "image";
-  url: string;
-  alt: string;
-  title?: string;
-};
-
-function walkAndReplace(
-  nodes: MdastNode[],
-  replace: (node: MdastNode) => MdastNode | null,
-) {
-  for (let i = 0; i < nodes.length; i++) {
-    const node = nodes[i]!;
-    const next = replace(node);
-    if (next) nodes[i] = next;
-
-    const children = nodes[i]?.children;
-    if (Array.isArray(children) && children.length > 0) {
-      walkAndReplace(children, replace);
-    }
-  }
-}
-
 function getAttr(tag: string, name: string): string | undefined {
   const re = new RegExp(`${name}\\s*=\\s*(\"([^\"]*)\"|'([^']*)')`, "i");
   const match = tag.match(re);
@@ -35,6 +5,13 @@ function getAttr(tag: string, name: string): string | undefined {
   if (typeof value === "string" && value.trim()) return value.trim();
   return undefined;
 }
+
+type ImageNode = {
+  type: "image";
+  url: string;
+  alt: string;
+  title?: string;
+};
 
 function tryParseSingleImg(html: string): ImageNode | null {
   const raw = html.trim();
@@ -63,14 +40,25 @@ function tryParseSingleImg(html: string): ImageNode | null {
  * - 仍然走 Astro 的 Markdown 图片处理/优化逻辑（而不是原样输出 `<img>`）
  */
 export default function convertHtmlImgToMarkdownImage() {
-  return (tree: MdastNode) => {
-    if (!tree || !Array.isArray(tree.children)) return;
+  return (tree: any) => {
+    const walk = (nodes: any[]) => {
+      for (let i = 0; i < nodes.length; i++) {
+        const node = nodes[i];
+        if (!node || typeof node !== "object") continue;
 
-    walkAndReplace(tree.children, node => {
-      if (node.type !== "html" || typeof node.value !== "string") return null;
-      const image = tryParseSingleImg(node.value);
-      return image;
-    });
+        if (node.type === "html" && typeof node.value === "string") {
+          const image = tryParseSingleImg(node.value);
+          if (image) nodes[i] = image;
+        }
+
+        if (Array.isArray(node.children) && node.children.length > 0) {
+          walk(node.children);
+        }
+      }
+    };
+
+    if (tree && Array.isArray(tree.children)) {
+      walk(tree.children);
+    }
   };
 }
-
