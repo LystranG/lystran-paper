@@ -3,6 +3,7 @@ export const SITE = {
   author: "Lystran",
   profile: "https://github.com/LystranG/",
   desc: "Lystran 的个人博客与数字花园。专注于后端开发技术、运维技术、AI技术、NAS、与开源工具折腾。在这里记录代码逻辑，沉淀生活思考，探索技术与人文的边界。 Lystran's personal blog and digital garden. Focusing on Backend, DevOps, AI, NAS & Open Source.",
+  keywords: ["Lystran", "博客", "后端", "DevOps", "AI", "NAS", "开源", "Blog", "All in One"],
   title: "Lystran Paper",
   ogImage: "avatar.png",
   lightAndDarkMode: true,
