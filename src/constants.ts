@@ -9,6 +9,11 @@ import IconWeibo from "@/assets/icons/IconJuejin.svg";
 import IconWhatsapp from "@/assets/icons/IconJuejin.svg";
 import { SITE } from "@/config";
 
+/**
+ * Vercel Redis 键统一前缀
+ */
+export const REDIS_KEY_PREFIX = "blog:";
+
 interface Social {
   name: string;
   href: string;

@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import { slugifyStr } from "@/utils/slugify";
 import { getPath } from "@/utils/getPath";
 import Datetime from "./Datetime.astro";
+import PostViews from "./PostViews.astro";
 
 type Props = {
   variant?: "h2" | "h3";
@@ -11,11 +12,13 @@ type Props = {
 const { variant: Heading = "h2", id, data, filePath } = Astro.props;
 
 const { title, description, ...props } = data;
+
+const path = getPath(id, filePath);
 ---
 
 <li class="my-6">
   <a
-    href={getPath(id, filePath)}
+    href={path}
     data-astro-prefetch="tap"
     class:list={[
       "inline-block text-lg font-medium text-accent",
@@ -29,6 +32,9 @@ const { title, description, ...props } = data;
       {title}
     </Heading>
   </a>
-  <Datetime {...props} />
+  <div class="mt-1 flex items-center justify-between gap-4">
+    <Datetime {...props} class="min-w-0" />
+    <PostViews path={path} class="shrink-0" />
+  </div>
   <p>{description}</p>
 </li>

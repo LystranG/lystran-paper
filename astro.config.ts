@@ -17,9 +17,16 @@ import ensureAccessibleName from "./src/utils/rehype/ensureAccessibleName";
 import convertHtmlImgToMarkdownImage from "./src/utils/remark/convertHtmlImgToMarkdownImage";
 
 import react from "@astrojs/react";
+import vercel from "@astrojs/vercel/serverless";
 
 // https://astro.build/config
 export default defineConfig({
+  output: "static",
+  adapter: vercel({
+    webAnalytics: {
+      enabled: false
+    }
+  }),
   prefetch: true,
   site: SITE.website,
   integrations: [

@@ -10,6 +10,7 @@ import ShareLinks from "@/components/ShareLinks.astro";
 import BackButton from "@/components/BackButton.astro";
 import BackToTopButton from "@/components/BackToTopButton.astro";
 import ArticleOutline from "@/components/ArticleOutline.astro";
+import PostViews from "@/components/PostViews.astro";
 import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
@@ -83,6 +84,8 @@ const currentPostIndex = allPosts.findIndex(a => a.id === post.id);
 const prevPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
 const nextPost =
   currentPostIndex !== allPosts.length ? allPosts[currentPostIndex + 1] : null;
+
+const path = getPath(post.id, post.filePath);
 ---
 
 <Layout {...layoutProps}>
@@ -101,6 +104,8 @@ const nextPost =
     </h1>
     <div class="my-2 flex items-center gap-2">
       <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
+      <span aria-hidden="true" class="max-sm:hidden">|</span>
+      <PostViews path={path} size="lg" hit />
       <span
         aria-hidden="true"
         class:list={[

@@ -1,0 +1,42 @@
+---
+import IconBook from "@/assets/icons/IconBook.svg";
+
+type Props = {
+  class?: string;
+  size?: "sm" | "lg";
+  path: string;
+  hit?: boolean;
+};
+
+const {
+  class: className = "",
+  size = "sm",
+  path,
+  hit = false,
+} = Astro.props;
+---
+
+<div
+  class:list={["flex items-center gap-x-2 opacity-80", className]}
+  data-post-views
+  data-post-views-path={path}
+  data-post-views-hit={hit ? "true" : undefined}
+>
+  <IconBook
+    class:list={[
+      "inline-block size-6 min-w-5.5",
+      { "scale-90": size === "sm" },
+    ]}
+    aria-hidden="true"
+    focusable="false"
+  />
+  <span class="sr-only">阅读量</span>
+  <span
+    data-post-views-count
+    class:list={[
+      "text-sm tabular-nums",
+      { "sm:text-base": size === "lg" },
+    ]}
+    >—</span
+  >
+</div>

@@ -5,7 +5,7 @@
 ![TailwindCSS](https://img.shields.io/badge/Tailwind-3.0-38bdf8?style=flat-square&logo=tailwindcss)
 ![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-black?style=flat-square&logo=vercel)
 
-![Vercel Deployment](https://vercelbadge.vercel.app/api/lystrang/lystran-paper)
+![Vercel](https://vercelbadge.vercel.app/api/lystrang/lystran-paper)
 
 > **"What's past is prologue."**  
 > 凡所过往，皆为序章。
@@ -31,7 +31,9 @@
 | **Language** | TypeScript + React | 类型安全与组件化开发 |
 | **Styling** | Tailwind CSS | 原子化 CSS，快速构建 UI |
 | **Theme** | [AstroPaper](https://github.com/satnaing/astro-paper) | 极简、SEO 友好、支持暗黑模式 |
-| **Deployment** | Vercel | 自动化部署与CDN、网站分析工具支持 |
+| **Backend** | Vercel Functions | **Serverless** 架构，混合渲染模式处理动态 API |
+| **Database** | Vercel KV (Redis) | 键值存储，用于文章阅读量统计 |
+| **Deployment** | Vercel | 全球 CDN 加速、自动化部署与 Analytics 分析 |
 | **Comment** | Giscus | 评论系统 |
 
 ## 🚀 本地运行 / Development
