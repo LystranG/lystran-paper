@@ -3,10 +3,10 @@ import type { GiscusProps } from "@giscus/react";
 import IconMail from "@/assets/icons/IconMail.svg";
 import IconGitHub from "@/assets/icons/IconGitHub.svg";
 import IconJuejin from "@/assets/icons/IconJuejin.svg";
-import IconQQ from "@/assets/icons/IconJuejin.svg";
-import IconWechat from "@/assets/icons/IconJuejin.svg";
-import IconWeibo from "@/assets/icons/IconJuejin.svg";
-import IconWhatsapp from "@/assets/icons/IconJuejin.svg";
+import IconQQ from "@/assets/icons/IconQQ.svg";
+import IconWechat from "@/assets/icons/IconWechat.svg";
+import IconWeibo from "@/assets/icons/IconWeibo.svg";
+import IconWhatsapp from "@/assets/icons/IconWhatsapp.svg";
 import { SITE } from "@/config";
 
 /**

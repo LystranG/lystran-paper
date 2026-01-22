@@ -17,7 +17,7 @@ import ensureAccessibleName from "./src/utils/rehype/ensureAccessibleName";
 import convertHtmlImgToMarkdownImage from "./src/utils/remark/convertHtmlImgToMarkdownImage";
 
 import react from "@astrojs/react";
-import vercel from "@astrojs/vercel/serverless";
+import vercel from "@astrojs/vercel";
 
 // https://astro.build/config
 export default defineConfig({
