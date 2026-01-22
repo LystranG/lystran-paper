@@ -36,6 +36,18 @@ async function loadGoogleFonts(
 > {
   const fontsConfig = [
     {
+      name: "Noto Sans SC",
+      font: "Noto+Sans+SC",
+      weight: 400,
+      style: "normal",
+    },
+    {
+      name: "Noto Sans SC",
+      font: "Noto+Sans+SC:wght@700",
+      weight: 700,
+      style: "bold",
+    },
+    {
       name: "IBM Plex Mono",
       font: "IBM+Plex+Mono",
       weight: 400,
