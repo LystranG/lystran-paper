@@ -21,8 +21,6 @@
 
 👉 [About](https://www.lystran.com/about)
 
----
-
 ## 🛠️ 技术栈 / Tech Stack
 
 本站秉持 **极简主义** 与 **高性能** 的原则构建。
@@ -35,8 +33,6 @@
 | **Theme** | [AstroPaper](https://github.com/satnaing/astro-paper) | 极简、SEO 友好、支持暗黑模式 |
 | **Deployment** | Vercel | 自动化部署与CDN、网站分析工具支持 |
 | **Comment** | Giscus | 评论系统 |
-
----
 
 ## 🚀 本地运行 / Development
 
@@ -68,12 +64,9 @@ pnpm run dev
     *   ❌ **禁止**：商业用途。
     *   ⚠️ **要求**：必须注明出处 (Lystran) 并以相同协议发布。
 
----
-
 ## 📬 联系 / Contact
 
 *   **Email**: [me@lystran.com](mailto:me@lystran.com)
 *   **Github**: [LystranG](https://github.com/LystranG)
 
 *If you find a bug or have a suggestion, feel free to open an issue!*
-```
