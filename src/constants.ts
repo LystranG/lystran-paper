@@ -2,7 +2,11 @@ import type { Props } from "astro";
 import type { GiscusProps } from "@giscus/react";
 import IconMail from "@/assets/icons/IconMail.svg";
 import IconGitHub from "@/assets/icons/IconGitHub.svg";
-import IconJuejin from "@/assets/icons/IconJuejin.svg"
+import IconJuejin from "@/assets/icons/IconJuejin.svg";
+import IconQQ from "@/assets/icons/IconJuejin.svg";
+import IconWechat from "@/assets/icons/IconJuejin.svg";
+import IconWeibo from "@/assets/icons/IconJuejin.svg";
+import IconWhatsapp from "@/assets/icons/IconJuejin.svg";
 import { SITE } from "@/config";
 
 interface Social {
@@ -34,6 +38,30 @@ export const SOCIALS: Social[] = [
 ] as const;
 
 export const SHARE_LINKS: Social[] = [
+  {
+    name: "QQ",
+    href: "https://connect.qq.com/widget/shareqq/index.html?url=",
+    linkTitle: `分享到 QQ`,
+    icon: IconQQ,
+  },
+  {
+    name: "WeChat",
+    href: "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=",
+    linkTitle: `分享到 微信`,
+    icon: IconWechat,
+  },
+  {
+    name: "Weibo",
+    href: "https://service.weibo.com/share/share.php?url=",
+    linkTitle: `分享到 微博`,
+    icon: IconWeibo,
+  },
+  {
+    name: "WhatsApp",
+    href: "https://wa.me/?text=",
+    linkTitle: `Share this post on WhatsApp`,
+    icon: IconWhatsapp,
+  },
   {
     name: "Mail",
     href: "mailto:?subject=See%20this%20post&body=",

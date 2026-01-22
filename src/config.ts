@@ -1,8 +1,8 @@
 export const SITE = {
-  website: "https://www.lystran.site/", // replace this with your deployed domain
+  website: "https://www.lystran.com/",
   author: "Lystran",
   profile: "https://github.com/LystranG/",
-  desc: "于 0 与 1 的逻辑丛林中，铺开一张素净的纸，记录代码背后的温度与光亮。",
+  desc: "Lystran 的个人博客与数字花园。专注于后端开发技术、运维技术、AI技术、NAS、与开源工具折腾。在这里记录代码逻辑，沉淀生活思考，探索技术与人文的边界。 Lystran's personal blog and digital garden. Focusing on Backend, DevOps, AI, NAS & Open Source.",
   title: "Lystran Paper",
   ogImage: "avatar.png",
   lightAndDarkMode: true,
@@ -14,7 +14,7 @@ export const SITE = {
   editPost: {
     enabled: true,
     text: "提出修改",
-    url: "https://github.com/satnaing/astro-paper/edit/main/",
+    url: "https://github.com/LystranG/lystran-paper/edit/main/",
   },
   dynamicOgImage: true,
   dir: "ltr", // "rtl" | "auto"
