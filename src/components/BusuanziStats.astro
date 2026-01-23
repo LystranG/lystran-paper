@@ -1,0 +1,105 @@
+---
+type Props = {
+  class?: string;
+};
+
+const { class: className = "" } = Astro.props;
+---
+
+<div
+  class:list={[
+    "mt-3 flex w-full flex-col items-center justify-center gap-1 text-center sm:mt-2 sm:flex-row sm:gap-3 sm:whitespace-nowrap",
+    className,
+  ]}
+>
+  <span class="break-words">
+    本站总访问量 <span id="busuanzi_site_pv">加载中...</span> 次
+  </span>
+  <span aria-hidden="true" class="hidden opacity-60 sm:inline">|</span>
+  <span class="break-words">
+    本站总访客数 <span id="busuanzi_site_uv">加载中...</span> 人
+  </span>
+</div>
+
+<script is:inline data-astro-rerun>
+  const PV_ID = "busuanzi_site_pv";
+  const UV_ID = "busuanzi_site_uv";
+  const STORAGE_PV_KEY = "lystran:busuanzi:pv";
+  const STORAGE_UV_KEY = "lystran:busuanzi:uv";
+
+  function getText(id) {
+    const el = document.getElementById(id);
+    if (!(el instanceof HTMLElement)) return null;
+    const text = (el.textContent ?? "").trim();
+    return text || null;
+  }
+
+  function setText(id, text) {
+    const el = document.getElementById(id);
+    if (!(el instanceof HTMLElement)) return;
+    el.textContent = text;
+  }
+
+  function isNumericText(text) {
+    return typeof text === "string" && /^\d+$/.test(text);
+  }
+
+  function restoreFromCache() {
+    try {
+      const pv = sessionStorage.getItem(STORAGE_PV_KEY);
+      const uv = sessionStorage.getItem(STORAGE_UV_KEY);
+
+      if (isNumericText(pv)) setText(PV_ID, pv);
+      if (isNumericText(uv)) setText(UV_ID, uv);
+    } catch {
+      // ignore
+    }
+  }
+
+  function observeAndCache() {
+    const pvEl = document.getElementById(PV_ID);
+    const uvEl = document.getElementById(UV_ID);
+    if (!(pvEl instanceof HTMLElement) && !(uvEl instanceof HTMLElement)) return;
+
+    try {
+      window.__lystranBusuanziObserver?.disconnect?.();
+    } catch {
+      // ignore
+    }
+
+    const observer = new MutationObserver(() => {
+      try {
+        const pv = getText(PV_ID);
+        const uv = getText(UV_ID);
+
+        if (isNumericText(pv)) sessionStorage.setItem(STORAGE_PV_KEY, pv);
+        if (isNumericText(uv)) sessionStorage.setItem(STORAGE_UV_KEY, uv);
+      } catch {
+        // ignore
+      }
+    });
+
+    if (pvEl instanceof HTMLElement) {
+      observer.observe(pvEl, { childList: true, characterData: true, subtree: true });
+    }
+    if (uvEl instanceof HTMLElement) {
+      observer.observe(uvEl, { childList: true, characterData: true, subtree: true });
+    }
+
+    window.__lystranBusuanziObserver = observer;
+  }
+
+  function onNav() {
+    restoreFromCache();
+    observeAndCache();
+  }
+
+  if (document.documentElement.dataset.busuanziCacheBound !== "true") {
+    document.documentElement.dataset.busuanziCacheBound = "true";
+    document.addEventListener("astro:page-load", onNav);
+    document.addEventListener("astro:after-swap", onNav);
+  }
+
+  onNav();
+</script>
+
