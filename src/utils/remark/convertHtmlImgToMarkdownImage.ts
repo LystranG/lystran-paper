@@ -17,7 +17,7 @@ type MdastParent = MdastNode & {
 };
 
 function isMdastNode(value: unknown): value is MdastNode {
-  return Boolean(value) && typeof value === "object" && "type" in value;
+  return value !== null && typeof value === "object" && "type" in value;
 }
 
 function isMdastParent(value: unknown): value is MdastParent {
