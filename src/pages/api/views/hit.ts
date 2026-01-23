@@ -5,11 +5,11 @@ import { json, normalizePath, viewsKey } from "../utils/viewsApi";
 export const prerender = false;
 
 /**
- * 文章阅读量自增接口（仅用于“真实进入文章页面”时调用）。
+ * 文章阅读量自增接口
  *
  * 防刷策略：
- * - 客户端：localStorage 6 小时去重（避免用户刷新/来回点导致频繁+1）。
- * - 服务端：限流交给 Vercel Firewall（你已决定在平台侧实现）。
+ * - 客户端：localStorage 6 小时去重
+ * - 服务端：Vercel Firewall
  */
 export const POST: APIRoute = async ({ request }) => {
   let body: unknown;

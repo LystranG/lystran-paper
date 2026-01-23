@@ -135,7 +135,7 @@ title: "关于"
 *   **Theme**: 基于 AstroPaper [<sup>10</sup>](https://github.com/satnaing/astro-paper) 修改、定制、开发
 *   **Styling**: Tailwind CSS
 *   **Backend**: Vercel Functions
-*   **Database**: Vercel KV (使用Vercel Redis实现阅读量统计)
+*   **Database**: Vercel KV (使用Upstash Redis实现阅读量统计)
 *   **Deployment**: Vercel
 *   **Code AI Agent**: Codex
 

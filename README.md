@@ -32,7 +32,7 @@
 | **Styling** | Tailwind CSS | 原子化 CSS，快速构建 UI |
 | **Theme** | [AstroPaper](https://github.com/satnaing/astro-paper) | 极简、SEO 友好、支持暗黑模式 |
 | **Backend** | Vercel Functions | **Serverless** 架构，混合渲染模式处理动态 API |
-| **Database** | Vercel KV (Redis) | 键值存储，用于文章阅读量统计 |
+| **Database** | Vercel KV (Upstash Redis) | 键值存储，用于文章阅读量统计 |
 | **Deployment** | Vercel | 全球 CDN 加速、自动化部署与 Analytics 分析 |
 | **Comment** | Giscus | 评论系统 |
 
