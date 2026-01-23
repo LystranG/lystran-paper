@@ -27,7 +27,19 @@ const { noMarginTop = false, class: className, ...attrs } = Astro.props;
     <div class="flex w-full justify-center">
       <Socials />
     </div>
-    <div class="my-2 flex w-full flex-col items-center text-center break-words sm:flex-row sm:justify-center sm:whitespace-nowrap">
+
+    <div
+      class="mt-3 flex w-full flex-col items-center justify-center gap-1 text-center sm:mt-2 sm:flex-row sm:gap-3 sm:whitespace-nowrap"
+    >
+      <span class="break-words">
+        本站总访问量 <span id="busuanzi_site_pv">加载中...</span> 次
+      </span>
+      <span aria-hidden="true" class="hidden opacity-60 sm:inline">|</span>
+      <span class="break-words">
+        本站总访客数 <span id="busuanzi_site_uv">加载中...</span> 人
+      </span>
+    </div>
+    <div class="my-1 flex w-full flex-col items-center text-center break-words sm:flex-row sm:justify-center sm:whitespace-nowrap">
       <span>Copyright &#169; {currentYear} {SITE.author}.</span>
       <span class="hidden sm:inline">&nbsp;|&nbsp;</span>
       <span
