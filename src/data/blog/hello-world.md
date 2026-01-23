@@ -1,7 +1,7 @@
 ---
 title: "Hello World: 系统的第一次启动"
 description: 每一个伟大的程序，都始于一句 Hello World。这是 Lystran 的数字花园/博客的起点。
-pubDatetime: 2026-01-23T12:47:00Z
+pubDatetime: 2026-01-23T12:47:00+08:00
 slug: hello-world
 featured: true
 draft: false
