@@ -45,7 +45,10 @@ export const POST: APIRoute = async ({ request }) => {
       })
     );
 
-    return json({ views: Object.fromEntries(entries) });
+    // CDN 读缓存
+    return json({ views: Object.fromEntries(entries) }, 200, [
+      ['Cache-Control', 'public, s-maxage=60, stale-while-revalidate=30']
+    ]);
   } catch {
     return json({ error: "KV not configured" }, 503);
   }

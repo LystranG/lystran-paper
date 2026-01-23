@@ -12,19 +12,14 @@ export const prerender = false;
  * - 服务端：Vercel Firewall
  */
 export const POST: APIRoute = async ({ request }) => {
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return json({ error: "Invalid JSON body" }, 400);
+  const raw = request.headers.get("x-slug");
+  const slug = normalizePath(raw);
+
+  if (!slug || !slug.startsWith("/posts/") || slug.length > 2000) {
+    return json({ error: "Invalid post slug" }, 400);
   }
 
-  const path = normalizePath((body as { path?: unknown }).path);
-  if (!path || !path.startsWith("/posts/")) {
-    return json({ error: "Invalid path" }, 400);
-  }
-
-  const key = viewsKey(path);
+  const key = viewsKey(slug);
   let next: number;
   try {
     next = await kv.incr(key);
@@ -32,5 +27,5 @@ export const POST: APIRoute = async ({ request }) => {
     return json({ error: "KV not configured" }, 503);
   }
 
-  return json({ path, views: next });
+  return json({ slug, views: next });
 };

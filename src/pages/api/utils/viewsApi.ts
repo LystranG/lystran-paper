@@ -4,13 +4,21 @@ import { SITE } from "@/config";
 /**
  * 统一输出 JSON 响应。
  */
-export function json(data: unknown, status = 200) {
+export function json(data: unknown, status = 200, headers?: [string, string][]) {
+
+  const responseHeaders = new Headers({
+    "Content-Type": "application/json; charset=utf-8"
+  })
+
+  if (headers) {
+    headers.forEach((t) => {
+      responseHeaders.append(t[0], t[1])
+    })
+  }
+
   return new Response(JSON.stringify(data), {
     status,
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      "Cache-Control": "no-store",
-    },
+    headers: responseHeaders
   });
 }
 
@@ -31,7 +39,7 @@ export function normalizePath(input: unknown) {
  * 阅读量计数器对应的 Redis Key
  */
 export function viewsKey(path: string) {
-  return `${REDIS_KEY_PREFIX}views:${path}`;
+  return `${REDIS_KEY_PREFIX}views:${path.trim()}`;
 }
 
 /**
