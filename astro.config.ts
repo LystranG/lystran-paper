@@ -10,6 +10,7 @@ import {
 } from "@shikijs/transformers";
 import { transformerFileName } from "./src/utils/transformers/fileName";
 import { SITE } from "./src/config";
+import { TOC_INFO } from "./src/config";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import mermaid from 'astro-mermaid';
@@ -53,7 +54,7 @@ export default defineConfig({
     remarkPlugins: [
       remarkMath,
       convertHtmlImgToMarkdownImage,
-      [remarkToc, {heading: '目录'}], [remarkCollapse, { test: "目录", summary: '点击展开' }]
+      [remarkToc, {heading: TOC_INFO.heading}], [remarkCollapse, { test: TOC_INFO.heading, summary: TOC_INFO.summary }]
     ],
     rehypePlugins: [
       rehypeKatex,

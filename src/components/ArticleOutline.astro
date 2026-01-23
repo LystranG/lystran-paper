@@ -9,6 +9,7 @@ import ArticleOutlineIsland, {
   type TocNode,
 } from "@/components/ArticleOutlineIsland";
 import IconList from "@/assets/icons/IconList.svg";
+import { TOC_INFO } from "@/config";
 
 type Props = {
   headings: Heading[];
@@ -30,8 +31,8 @@ const toc = (headings ?? []).filter(h => {
   const isInRange = h.depth >= minDepth && h.depth <= maxDepth;
   const hasText = Boolean(h.text?.trim());
   const hasSlug = Boolean(h.slug?.trim());
-  // 兼容项目内 remark-toc 生成的“目录”标题，避免大纲里出现“目录 -> 目录...”
-  const isDirectoryHeading = h.text?.trim() === "目录";
+  // 兼容 remark-toc 生成的“目录”标题
+  const isDirectoryHeading = h.text?.trim() === TOC_INFO.heading;
   return isInRange && hasText && hasSlug && !isDirectoryHeading;
 });
 
@@ -311,7 +312,7 @@ const tree = buildTree(toc);
     gap: 0;
   }
 
-  /* 小屏：默认只显示悬浮按钮，面板从右下角弹出 */
+  /* 小屏：默认只显示悬浮按钮 */
   @media (max-width: 1023.98px) {
     :root {
       --article-outline-right: 0.75rem;
@@ -372,12 +373,16 @@ const tree = buildTree(toc);
       }
     }
 
-    let topPx = 96;
-    if (bottom > 0) topPx = Math.max(12, Math.round(bottom + 12));
-
     for (const shell of shells) {
       if (!(shell instanceof HTMLElement)) continue;
-      shell.style.setProperty("--article-outline-top", `${topPx}px`);
+      const baseTopPx = Number.parseInt(shell.dataset.baseTopPx ?? "", 10);
+      const baseTop = Number.isFinite(baseTopPx) ? baseTopPx : 96;
+
+      // 防止与 Header 重叠
+      const topPx = Math.max(baseTop, Math.round(bottom + 12));
+
+      if (topPx === baseTop) shell.style.removeProperty("--article-outline-top");
+      else shell.style.setProperty("--article-outline-top", `${topPx}px`);
     }
   }
 
@@ -387,6 +392,12 @@ const tree = buildTree(toc);
       if (!(shell instanceof HTMLElement)) continue;
       if (shell.dataset.bound === "true") continue;
       shell.dataset.bound = "true";
+
+      // 记录 CSS 默认 top（未设置 --article-outline-top 时的像素值），用于做“阻挡”式偏移。
+      // 必须在首次 update 前读取，否则会被动态 top 覆盖。
+      if (!shell.dataset.baseTopPx) {
+        shell.dataset.baseTopPx = String(Math.round(shell.getBoundingClientRect().top));
+      }
 
       const panel = shell.querySelector("[data-outline-panel]");
       const toggle = shell.querySelector("[data-outline-toggle]");
