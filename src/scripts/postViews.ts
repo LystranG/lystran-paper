@@ -1,10 +1,11 @@
+import { HIT_TTL_MS } from "@/constants";
+
 /**
  * 文章阅读量（views）
  * - 读取页面中的 data-post-views-* 节点并批量拉取阅读量
- * - 对当前文章（hit=true）本地 6 小时去重后触发一次自增
+ * - 对当前文章（hit=true）本地 xxx 时间去重后触发一次自增
  * - KV 不可用或网络错误时隐藏组件
  */
-const HIT_TTL_MS = 6 * 60 * 60 * 1000; // 6 小时
 const STORAGE_PREFIX = "lystran:postviews:lastHit:";
 let activeController: AbortController | null = null;
 

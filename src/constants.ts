@@ -9,10 +9,12 @@ import IconWeibo from "@/assets/icons/IconWeibo.svg";
 import IconWhatsapp from "@/assets/icons/IconWhatsapp.svg";
 import { SITE } from "@/config";
 
-/**
- * Vercel Redis 键统一前缀
- */
+
+// Vercel Redis 键统一前缀
 export const REDIS_KEY_PREFIX = "blog:";
+
+// 阅读量统计刷新间隔
+export const HIT_TTL_MS = 10 * 60 * 1000; // 10 分钟
 
 interface Social {
   name: string;
