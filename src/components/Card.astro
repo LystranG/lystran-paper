@@ -32,9 +32,10 @@ const path = getPath(id, filePath);
       {title}
     </Heading>
   </a>
-  <div class="mt-1 flex items-center justify-between gap-4">
+  <div class="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1">
     <Datetime {...props} class="min-w-0" />
-    <PostViews path={path} class="shrink-0" />
+    <span aria-hidden="true" class="opacity-60">|</span>
+    <PostViews path={path} />
   </div>
   <p>{description}</p>
 </li>
