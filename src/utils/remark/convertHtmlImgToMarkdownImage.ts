@@ -6,6 +6,25 @@ function getAttr(tag: string, name: string): string | undefined {
   return undefined;
 }
 
+type MdastNode = {
+  type: string;
+  value?: unknown;
+  children?: unknown;
+};
+
+type MdastParent = MdastNode & {
+  children: MdastNode[];
+};
+
+function isMdastNode(value: unknown): value is MdastNode {
+  return Boolean(value) && typeof value === "object" && "type" in value;
+}
+
+function isMdastParent(value: unknown): value is MdastParent {
+  if (!isMdastNode(value)) return false;
+  return Array.isArray((value as MdastNode).children);
+}
+
 type ImageNode = {
   type: "image";
   url: string;
@@ -40,24 +59,24 @@ function tryParseSingleImg(html: string): ImageNode | null {
  * - 仍然走 Astro 的 Markdown 图片处理/优化逻辑（而不是原样输出 `<img>`）
  */
 export default function convertHtmlImgToMarkdownImage() {
-  return (tree: any) => {
-    const walk = (nodes: any[]) => {
+  return (tree: unknown) => {
+    const walk = (nodes: MdastNode[]) => {
       for (let i = 0; i < nodes.length; i++) {
         const node = nodes[i];
-        if (!node || typeof node !== "object") continue;
+        if (!isMdastNode(node)) continue;
 
         if (node.type === "html" && typeof node.value === "string") {
           const image = tryParseSingleImg(node.value);
           if (image) nodes[i] = image;
         }
 
-        if (Array.isArray(node.children) && node.children.length > 0) {
+        if (isMdastParent(node) && node.children.length > 0) {
           walk(node.children);
         }
       }
     };
 
-    if (tree && Array.isArray(tree.children)) {
+    if (isMdastParent(tree)) {
       walk(tree.children);
     }
   };
