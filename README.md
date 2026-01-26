@@ -72,5 +72,3 @@ pnpm run dev
 *   **Github**: [LystranG](https://github.com/LystranG)
 
 *If you find a bug or have a suggestion, feel free to open an issue!*
-
-<img src="https://analytics.nas.lystran.com:52443/p/MJ6OJEOQw" width="1" height="1" style="display:none;" />
