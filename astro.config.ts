@@ -20,6 +20,7 @@ import convertHtmlImgToMarkdownImage from "./src/utils/remark/convertHtmlImgToMa
 import react from "@astrojs/react";
 import vercel from "@astrojs/vercel";
 import umami from "@yeskunall/astro-umami";
+import partytown from "@astrojs/partytown";
 
 // https://astro.build/config
 export default defineConfig({
@@ -31,35 +32,31 @@ export default defineConfig({
   }),
   prefetch: true,
   site: SITE.website,
-  integrations: [
-    sitemap({
-      filter: page => SITE.showArchives || !page.endsWith("/archives"),
-    }), 
-    mermaid({
-      theme: 'forest',
-      autoTheme: true,
-      iconPacks: [
-        {
-          name: 'logos',
-          loader: () => fetch('https://unpkg.com/@iconify-json/logos@1/icons.json').then(res => res.json())
-        },
-        {
-          name: 'iconoir',
-          loader: () => fetch('https://unpkg.com/@iconify-json/iconoir@1/icons.json').then(res => res.json())
-        }
-      ]
-    }), 
-    react(),
-    umami({
-      id: "31c63cca-7a36-4dbe-a22b-9ed3377539b7",
-      endpointUrl: "https://analytics.lystran.com"
-    })
-  ],
+  integrations: [sitemap({
+    filter: page => SITE.showArchives || !page.endsWith("/archives"),
+  }), mermaid({
+    theme: 'forest',
+    autoTheme: true,
+    iconPacks: [
+      {
+        name: 'logos',
+        loader: () => fetch('https://unpkg.com/@iconify-json/logos@1/icons.json').then(res => res.json())
+      },
+      {
+        name: 'iconoir',
+        loader: () => fetch('https://unpkg.com/@iconify-json/iconoir@1/icons.json').then(res => res.json())
+      }
+    ]
+  }), react(), umami({
+    id: "31c63cca-7a36-4dbe-a22b-9ed3377539b7",
+    endpointUrl: "https://analytics.lystran.com",
+    withPartytown: true
+  }), partytown()],
   markdown: {
     remarkPlugins: [
       remarkMath,
       convertHtmlImgToMarkdownImage,
-      [remarkToc, {heading: TOC_INFO.heading}], [remarkCollapse, { test: TOC_INFO.heading, summary: TOC_INFO.summary }]
+      [remarkToc, { heading: TOC_INFO.heading }], [remarkCollapse, { test: TOC_INFO.heading, summary: TOC_INFO.summary }]
     ],
     rehypePlugins: [
       rehypeKatex,
