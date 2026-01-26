@@ -8,7 +8,7 @@ export const prerender = false;
  * 文章阅读量自增接口
  *
  * 防刷策略：
- * - 客户端：localStorage 6 小时去重
+ * - 客户端：localStorage 去重
  * - 服务端：Vercel Firewall
  */
 export const POST: APIRoute = async ({ request }) => {

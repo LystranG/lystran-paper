@@ -57,6 +57,21 @@ type PostJsonResult<T> =
   | { ok: true; status: number; data: T }
   | { ok: false; status: number; data: null };
 
+async function getJson<T>(
+  url: string,
+  signal: AbortSignal
+): Promise<PostJsonResult<T>> {
+  let res: Response;
+  try {
+    res = await fetch(url, { method: "GET", signal });
+  } catch {
+    return { ok: false, status: 0, data: null };
+  }
+
+  if (!res.ok) return { ok: false, status: res.status, data: null };
+  return { ok: true, status: res.status, data: (await res.json()) as T };
+}
+
 async function postJson<T>(
   url: string,
   body: unknown | undefined,
@@ -133,9 +148,10 @@ async function run() {
       markHit(hitPath);
       const remaining = paths.filter(p => p !== hitPath);
       if (remaining.length === 0) return;
-      const batch = await postJson<{ views: Record<string, number> }>(
-        "/api/views/batch",
-        { paths: remaining },
+      const params = new URLSearchParams();
+      for (const path of remaining) params.append("path", path);
+      const batch = await getJson<{ views: Record<string, number> }>(
+        `/api/views/batch?${params.toString()}`,
         signal
       );
       if (!batch.ok) {
@@ -154,9 +170,10 @@ async function run() {
     }
   }
 
-  const batch = await postJson<{ views: Record<string, number> }>(
-    "/api/views/batch",
-    { paths },
+  const params = new URLSearchParams();
+  for (const path of paths) params.append("path", path);
+  const batch = await getJson<{ views: Record<string, number> }>(
+    `/api/views/batch?${params.toString()}`,
     signal
   );
   if (!batch.ok) {

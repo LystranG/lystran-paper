@@ -13,32 +13,21 @@ const MAX_PATHS = 50;
 
 /**
  * 批量获取阅读量
- * 只读，不会自增
  */
-export const POST: APIRoute = async ({ request }) => {
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return json({ error: "Invalid JSON body" }, 400);
-  }
-
-  const paths = (body as { paths?: unknown }).paths;
-  if (!Array.isArray(paths)) {
-    return json({ error: "paths must be an array" }, 400);
-  }
-
-  const normalized = paths
+function normalizeAndLimitPaths(inputs: unknown[]) {
+  const normalized = inputs
     .map(normalizePath)
     .filter((p): p is string => Boolean(p))
     .filter(p => p.startsWith("/posts/"))
     .filter(p => p.length <= 2000);
 
-  const unique = Array.from(new Set(normalized)).slice(0, MAX_PATHS);
+  return Array.from(new Set(normalized)).slice(0, MAX_PATHS);
+}
 
+async function handleBatch(paths: string[]) {
   try {
     const entries = await Promise.all(
-      unique.map(async path => {
+      paths.map(async path => {
         const key = viewsKey(path);
         const value = (await kv.get<unknown>(key)) ?? 0;
         return [path, coerceViewsNumber(value)] as const;
@@ -47,9 +36,16 @@ export const POST: APIRoute = async ({ request }) => {
 
     // CDN 读缓存
     return json({ views: Object.fromEntries(entries) }, 200, [
-      ['Cache-Control', 'public, s-maxage=60, stale-while-revalidate=30']
+      ["Cache-Control", "public, s-maxage=60, stale-while-revalidate=30"],
     ]);
   } catch {
     return json({ error: "KV not configured" }, 503);
   }
+}
+
+export const GET: APIRoute = async ({ url }) => {
+  // 重复参数 path
+  const raw = url.searchParams.getAll("path");
+  const unique = normalizeAndLimitPaths(raw);
+  return handleBatch(unique);
 };
