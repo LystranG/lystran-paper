@@ -17,9 +17,9 @@
 
 基于 [AstroPaper](https://github.com/satnaing/astro-paper) 主题进行修改和开发。
 
-👉 **Live Site**: [www.lystran.com](https://www.lystran.com)
+👉 **Live Site**: [www.lystran.com](https://analytics.lystran.com/q/TQe9zHyD2)
 
-👉 [About](https://www.lystran.com/about)
+👉 [About](https://www.lystran.com/about?utm_source=github&utm_medium=website)
 
 ## 🛠️ 技术栈 / Tech Stack
 
@@ -72,3 +72,5 @@ pnpm run dev
 *   **Github**: [LystranG](https://github.com/LystranG)
 
 *If you find a bug or have a suggestion, feel free to open an issue!*
+
+![](https://analytics.lystran.com/p/2snh8FXGM)
