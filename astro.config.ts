@@ -19,6 +19,7 @@ import convertHtmlImgToMarkdownImage from "./src/utils/remark/convertHtmlImgToMa
 
 import react from "@astrojs/react";
 import vercel from "@astrojs/vercel";
+import umami from "@yeskunall/astro-umami";
 
 // https://astro.build/config
 export default defineConfig({
@@ -48,7 +49,11 @@ export default defineConfig({
         }
       ]
     }), 
-    react()
+    react(),
+    umami({
+      id: "31c63cca-7a36-4dbe-a22b-9ed3377539b7",
+      endpointUrl: "https://analytics.lystran.com"
+    })
   ],
   markdown: {
     remarkPlugins: [

@@ -47,6 +47,9 @@ importers:
       '@vercel/speed-insights':
         specifier: ^1.3.1
         version: 1.3.1(react@19.2.3)
+      '@yeskunall/astro-umami':
+        specifier: 0.0.7
+        version: 0.0.7(astro@5.16.6(@upstash/redis@1.36.1)(@vercel/functions@2.2.13)(@vercel/kv@3.0.0)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.41.1)(typescript@5.9.3)(yaml@2.7.1))
       astro:
         specifier: ^5.16.6
         version: 5.16.6(@upstash/redis@1.36.1)(@vercel/functions@2.2.13)(@vercel/kv@3.0.0)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.41.1)(typescript@5.9.3)(yaml@2.7.1)
@@ -1515,6 +1518,11 @@ packages:
 
   '@vscode/l10n@0.0.18':
     resolution: {integrity: sha512-KYSIHVmslkaCDyw013pphY+d7x1qV8IZupYfeIfzNA+nsaWHbn5uPuQRvdRFsa9zFzGeudPuoGoZ1Op4jrJXIQ==}
+
+  '@yeskunall/astro-umami@0.0.7':
+    resolution: {integrity: sha512-8W/At28qKyPGepwvVumgJX0VZ0F9KK4M4zNDQfUZ3iBJpAKUTAkdIXM7i7I+PFsP7rXOo/AVgcDXDOv9L03QhQ==}
+    peerDependencies:
+      astro: ^3.0.0 || ^4.0.0 || ^5.0.0
 
   abbrev@3.0.1:
     resolution: {integrity: sha512-AO2ac6pjRB3SJmGJo+v5/aK6Omggp6fsLrs6wN9bd35ulu4cCwaAU9+7ZhXjeqHVkaHThLuzH0nZr0YpCDhygg==}
@@ -5189,6 +5197,10 @@ snapshots:
       vscode-uri: 3.1.0
 
   '@vscode/l10n@0.0.18': {}
+
+  '@yeskunall/astro-umami@0.0.7(astro@5.16.6(@upstash/redis@1.36.1)(@vercel/functions@2.2.13)(@vercel/kv@3.0.0)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.41.1)(typescript@5.9.3)(yaml@2.7.1))':
+    dependencies:
+      astro: 5.16.6(@upstash/redis@1.36.1)(@vercel/functions@2.2.13)(@vercel/kv@3.0.0)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.41.1)(typescript@5.9.3)(yaml@2.7.1)
 
   abbrev@3.0.1: {}
 
