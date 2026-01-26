@@ -16,6 +16,7 @@ import rehypeKatex from "rehype-katex";
 import mermaid from 'astro-mermaid';
 import ensureAccessibleName from "./src/utils/rehype/ensureAccessibleName";
 import convertHtmlImgToMarkdownImage from "./src/utils/remark/convertHtmlImgToMarkdownImage";
+import rehypeUmamiOutboundLinks from "./src/utils/rehype/rehypeUmamiOutboundLinks";
 
 import react from "@astrojs/react";
 import vercel from "@astrojs/vercel";
@@ -61,6 +62,7 @@ export default defineConfig({
     rehypePlugins: [
       rehypeKatex,
       ensureAccessibleName,
+      [rehypeUmamiOutboundLinks, { site: SITE.website }],
     ],
     shikiConfig: {
       // For more themes, visit https://shiki.style/themes
