@@ -28,3 +28,4 @@ public/pagefind
 
 # vercel
 .vercel
+.env*.local

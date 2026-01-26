@@ -52,7 +52,18 @@ export default defineConfig({
     id: "31c63cca-7a36-4dbe-a22b-9ed3377539b7",
     endpointUrl: "https://analytics.lystran.com",
     withPartytown: true
-  }), partytown()],
+  }), partytown({
+    config: {
+      resolveUrl: (url) => {
+
+        if (url.hostname === 'cdn.busuanzi.cc') {
+          return new URL('/_partytown-proxy/busuanzi' + url.pathname, location.href);
+        }
+        
+        return url;
+      }
+    }
+  })],
   markdown: {
     remarkPlugins: [
       remarkMath,

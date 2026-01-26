@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/_partytown-proxy/busuanzi/:match*",
+      "destination": "https://cdn.busuanzi.cc/:match*"
+    }
+  ]
+}
