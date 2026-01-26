@@ -2,7 +2,7 @@
 import { SHARE_LINKS } from "@/constants";
 import LinkButton from "./LinkButton.astro";
 
-const URL = Astro.url;
+const currentUrl = Astro.url;
 ---
 
 {
@@ -10,16 +10,28 @@ const URL = Astro.url;
     <div class="flex flex-none flex-col items-center justify-center gap-1 md:items-start">
       <span class="italic">分享该文章到:</span>
       <div class="text-center">
-        {SHARE_LINKS.map(social => (
-          <LinkButton
-            href={`${social.href + URL}`}
-            class="scale-90 p-2 hover:rotate-6 sm:p-1"
-            title={social.linkTitle}
-          >
-            <social.icon class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110" />
-            <span class="sr-only">{social.linkTitle}</span>
-          </LinkButton>
-        ))}
+        {SHARE_LINKS.map(social => {
+          const shareUrl = new URL(currentUrl);
+
+          // 添加 UTM 追踪参数
+          shareUrl.searchParams.set("utm_source", social.name.toLowerCase());
+          shareUrl.searchParams.set("utm_medium", "social");
+          // shareUrl.searchParams.set("utm_campaign", "share_buttons");
+
+          // 生成最终链接
+          const finalHref = `${social.href}${encodeURIComponent(shareUrl.toString())}`;
+
+          return (
+            <LinkButton
+              href={finalHref}
+              class="scale-90 p-2 hover:rotate-6 sm:p-1"
+              title={social.linkTitle}
+            >
+              <social.icon class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110" />
+              <span class="sr-only">{social.linkTitle}</span>
+            </LinkButton>
+          );
+        })}
       </div>
     </div>
   )
