@@ -73,4 +73,4 @@ pnpm run dev
 
 *If you find a bug or have a suggestion, feel free to open an issue!*
 
-![](https://analytics.lystran.com/p/2snh8FXGM)
+<img src="https://analytics.nas.lystran.com:52443/p/MJ6OJEOQw" width="1" height="1" style="display:none;" />
